@@ -180,6 +180,7 @@ var FluentContainer = function () {
 FluentContainer.prototype = new LambdaContainer();
 
 module.exports = {
+    l: new LambdaContainer(),
     L: new FluentContainer(),
     O: new OperationContainer()
 };

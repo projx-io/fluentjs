@@ -1,12 +1,12 @@
 describe('L', function () {
-    var L = null;
+    var l = null;
 
     beforeEach(function () {
-        L = require('../L.js').L;
+        l = require('../L.js').l;
     });
 
     it('should exist', function () {
-        expect(L).toBeDefined();
+        expect(l).toBeDefined();
     });
 
     describe('.array', function () {
@@ -16,9 +16,9 @@ describe('L', function () {
         var args = null;
 
         beforeEach(function () {
-            array = L.array(['a', 'b', 'c']);
-            object = L.array({"A": "a", "B": "b", "C": "c"});
-            args = L.array((function () {
+            array = l.array(['a', 'b', 'c']);
+            object = l.array({"A": "a", "B": "b", "C": "c"});
+            args = l.array((function () {
                 return arguments;
             })('a', 'b', 'c'));
         });
@@ -49,9 +49,9 @@ describe('L', function () {
         var args = null;
 
         beforeEach(function () {
-            array = L.array(['a', 'b', 'c'], 1);
-            object = L.array({"A": "a", "B": "b", "C": "c"}, 1);
-            args = L.array((function () {
+            array = l.array(['a', 'b', 'c'], 1);
+            object = l.array({"A": "a", "B": "b", "C": "c"}, 1);
+            args = l.array((function () {
                 return arguments;
             })('a', 'b', 'c'), 1);
         });
@@ -79,9 +79,9 @@ describe('L', function () {
         var a, b, c;
 
         beforeEach(function () {
-            a = L.param(0);
-            b = L.param(1);
-            c = L.param(2);
+            a = l.param(0);
+            b = l.param(1);
+            c = l.param(2);
         });
 
         it('should return the correct argument', function () {
@@ -97,11 +97,11 @@ describe('L', function () {
         var callback = null;
 
         beforeEach(function () {
-            parameters = [5, L.param(0), 11];
+            parameters = [5, l.param(0), 11];
             operation = function (a, b, c) {
                 return a + b + c;
             };
-            callback = L.yield(operation, parameters);
+            callback = l.yield(operation, parameters);
         });
 
         it('should return a callback', function () {
@@ -124,7 +124,7 @@ describe('L', function () {
             operation = function (a, b, c) {
                 return a + b + c;
             };
-            callback = L.lazy(operation, 5, L.param(0), 11);
+            callback = l.lazy(operation, 5, l.param(0), 11);
         });
 
         it('should return a callback', function () {
