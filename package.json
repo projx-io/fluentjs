@@ -1,8 +1,8 @@
 {
     "name": "lambda",
     "version": "0.0.1",
-    "description": "json data validation by schema",
-    "main": "jschema.js",
+    "description": "lambda library for js",
+    "main": "L.js",
     "scripts": {
         "test": "./node_modules/.bin/jasmine-node --verbose --junitreport spec"
     },
