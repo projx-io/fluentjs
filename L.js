@@ -3,10 +3,10 @@
  *
  * @constructor
  */
-var OperationContainer = function () {
+var LambdaContainer = function () {
 };
 
-OperationContainer.prototype.array = function (items, start) {
+LambdaContainer.prototype.array = function (items, start) {
     var array = [];
     for (var key in items) {
         array.push(items[key]);
@@ -14,25 +14,25 @@ OperationContainer.prototype.array = function (items, start) {
     return array.slice(start);
 };
 
-OperationContainer.prototype.resolve = function (parameters) {
+LambdaContainer.prototype.resolve = function (parameters) {
     return function (value) {
         return typeof value === "function" ? value.apply(null, parameters) : value;
     };
 };
 
-OperationContainer.prototype.yield = function (callback, parameters) {
+LambdaContainer.prototype.yield = function (callback, parameters) {
     return function () {
         return callback.apply(null, parameters.map(this.resolve(arguments)));
     }.bind(this);
 };
 
-OperationContainer.prototype.param = function (i) {
+LambdaContainer.prototype.param = function (i) {
     return function () {
         return arguments[i];
     };
 };
 
-OperationContainer.prototype.lazy = function (callback) {
+LambdaContainer.prototype.lazy = function (callback) {
     return this.yield(callback, this.array(arguments, 1));
 };
 
@@ -44,6 +44,6 @@ OperationContainer.prototype.lazy = function (callback) {
 var FluentContainer = function () {
 };
 
-FluentContainer.prototype = new OperationContainer();
+FluentContainer.prototype = new LambdaContainer();
 
 module.exports = new FluentContainer();
