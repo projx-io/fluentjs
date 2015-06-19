@@ -182,13 +182,30 @@ Fluent.prototype.make = function (object) {
     return Fluent.Fluentize(object);
 };
 
+Fluent.Container = function (object) {
+};
+
+Fluent.Container.prototype.curry = function () {
+    return this;
+};
+
 Fluent.Fluentize = function (object) {
-    var container = new Fluent.Container(object);
+    var container = new Fluent.Container();
 
     Object.keys(object.prototype).map(function (key) {
         Object.defineProperty(container, key, {
             get: function () {
-                return container.next;
+                return function () {
+                    return container.curry;
+                };
+            }
+        });
+
+        Object.defineProperty(container.curry, key, {
+            get: function () {
+                return function () {
+                    return container.curry;
+                };
             }
         });
     });
@@ -196,10 +213,7 @@ Fluent.Fluentize = function (object) {
     return container;
 };
 
-Fluent.Container = function (object) {
-};
-
-Fluent.Container.prototype.next = function (object) {
+Fluent.Container.prototype.next = function () {
 };
 
 Fluent.Chain = function () {

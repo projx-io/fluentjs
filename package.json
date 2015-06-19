@@ -1,8 +1,8 @@
 {
-    "name": "lambda",
+    "name": "fluentjs",
     "version": "0.0.1",
-    "description": "lambda library for js",
-    "main": "L.js",
+    "description": "fluent for javascript",
+    "main": "fluent.js",
     "scripts": {
         "test": "./node_modules/.bin/jasmine-node --verbose --junitreport spec"
     },

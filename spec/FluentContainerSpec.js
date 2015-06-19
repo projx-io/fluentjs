@@ -14,6 +14,7 @@ describe('L', function () {
     describe('should have operations available', function () {
         it('.isUndefined', function () {
             expect(L.isUndefined).toBeDefined();
+            expect(L.isUndefined().and().or()()).toBeDefined();
         });
 
         it('.isNull', function () {
@@ -83,7 +84,6 @@ describe('L', function () {
         it('.product', function () {
             expect(L.product).toBeDefined();
         });
-
     });
 });
 
