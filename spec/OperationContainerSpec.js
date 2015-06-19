@@ -85,7 +85,7 @@ describe('O', function () {
 
     describe('type', function () {
         it('.isUndefined', function () {
-            expect(O.isUndefined(undefined)).toBeTruthy();
+            expect(O.isUndefined(undefined)).toBeTruthy();  // <==
             expect(O.isUndefined(null)).toBeFalsy();
             expect(O.isUndefined(false)).toBeFalsy();
             expect(O.isUndefined(true)).toBeFalsy();
@@ -102,7 +102,7 @@ describe('O', function () {
 
         it('.isNull', function () {
             expect(O.isNull(undefined)).toBeFalsy();
-            expect(O.isNull(null)).toBeTruthy();
+            expect(O.isNull(null)).toBeTruthy();        // <==
             expect(O.isNull(false)).toBeFalsy();
             expect(O.isNull(true)).toBeFalsy();
             expect(O.isNull(0)).toBeFalsy();
@@ -119,8 +119,8 @@ describe('O', function () {
         it('.isBoolean', function () {
             expect(O.isBoolean(undefined)).toBeFalsy();
             expect(O.isBoolean(null)).toBeFalsy();
-            expect(O.isBoolean(false)).toBeTruthy();
-            expect(O.isBoolean(true)).toBeTruthy();
+            expect(O.isBoolean(false)).toBeTruthy();    // <==
+            expect(O.isBoolean(true)).toBeTruthy();     // <==
             expect(O.isBoolean(0)).toBeFalsy();
             expect(O.isBoolean(1)).toBeFalsy();
             expect(O.isBoolean("")).toBeFalsy();
@@ -137,8 +137,8 @@ describe('O', function () {
             expect(O.isNumber(null)).toBeFalsy();
             expect(O.isNumber(false)).toBeFalsy();
             expect(O.isNumber(true)).toBeFalsy();
-            expect(O.isNumber(0)).toBeTruthy();
-            expect(O.isNumber(1)).toBeTruthy();
+            expect(O.isNumber(0)).toBeTruthy();         // <==
+            expect(O.isNumber(1)).toBeTruthy();         // <==
             expect(O.isNumber("")).toBeFalsy();
             expect(O.isNumber("string")).toBeFalsy();
             expect(O.isNumber([])).toBeFalsy();
@@ -155,8 +155,8 @@ describe('O', function () {
             expect(O.isString(true)).toBeFalsy();
             expect(O.isString(0)).toBeFalsy();
             expect(O.isString(1)).toBeFalsy();
-            expect(O.isString("")).toBeTruthy();
-            expect(O.isString("string")).toBeTruthy();
+            expect(O.isString("")).toBeTruthy();        // <==
+            expect(O.isString("string")).toBeTruthy();  // <==
             expect(O.isString([])).toBeFalsy();
             expect(O.isString(["array"])).toBeFalsy();
             expect(O.isString({})).toBeFalsy();
@@ -173,8 +173,8 @@ describe('O', function () {
             expect(O.isArray(1)).toBeFalsy();
             expect(O.isArray("")).toBeFalsy();
             expect(O.isArray("string")).toBeFalsy();
-            expect(O.isArray([])).toBeTruthy();
-            expect(O.isArray(["array"])).toBeTruthy();
+            expect(O.isArray([])).toBeTruthy();         // <==
+            expect(O.isArray(["array"])).toBeTruthy();  // <==
             expect(O.isArray({})).toBeFalsy();
             expect(O.isArray({"a":"1"})).toBeFalsy();
             expect(O.isArray(Object.keys)).toBeFalsy();
@@ -191,8 +191,8 @@ describe('O', function () {
             expect(O.isObject("string")).toBeFalsy();
             expect(O.isObject([])).toBeFalsy();
             expect(O.isObject(["array"])).toBeFalsy();
-            expect(O.isObject({})).toBeTruthy();
-            expect(O.isObject({"a":"1"})).toBeTruthy();
+            expect(O.isObject({})).toBeTruthy();        // <==
+            expect(O.isObject({"a":"1"})).toBeTruthy(); // <==
             expect(O.isObject(Object.keys)).toBeFalsy();
         });
 
@@ -209,7 +209,7 @@ describe('O', function () {
             expect(O.isFunction(["array"])).toBeFalsy();
             expect(O.isFunction({})).toBeFalsy();
             expect(O.isFunction({"a":"1"})).toBeFalsy();
-            expect(O.isFunction(Object.keys)).toBeTruthy();
+            expect(O.isFunction(Object.keys)).toBeTruthy();// <==
         });
     });
 });
