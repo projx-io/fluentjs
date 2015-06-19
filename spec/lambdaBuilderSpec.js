@@ -1,4 +1,4 @@
-L = require('../λ.js').L;
+L = require('../lambda.js').L;
 
 describe('λ', function () {
 

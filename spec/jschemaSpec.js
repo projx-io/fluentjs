@@ -1,10 +1,9 @@
-l = require('../λ.js').l;
-L = require('../λ.js').L;
-p = require('../λ.js').lambda.p;
-P = require('../λ.js').lambda.P;
-add = require('../λ.js').lambda.add;
-and = require('../λ.js').lambda.and;
-
+l = require('../lambda.js').l;
+L = require('../lambda.js').L;
+p = require('../lambda.js').lambda.p;
+P = require('../lambda.js').lambda.P;
+add = require('../lambda.js').lambda.add;
+and = require('../lambda.js').lambda.and;
 
 describe('λ', function () {
     it('should return a callback', function () {
