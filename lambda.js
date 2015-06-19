@@ -5,7 +5,7 @@
  *
  * @constructor
  */
-var Lambda = function () {
+var MethodContainer = function () {
 };
 
 /**
@@ -13,20 +13,20 @@ var Lambda = function () {
  * @param callback
  * @returns {*}
  */
-Lambda.prototype.lazy = function (callback) {
+MethodContainer.prototype.lazy = function (callback) {
     var args = this.args(arguments, 1);
 
     return this.B(callback, args);
 };
-Lambda.prototype.l = Lambda.prototype.lazy;
+MethodContainer.prototype.l = MethodContainer.prototype.lazy;
 
 /**
  *
  * @param callback
  * @param values
- * @returns {function(this:Lambda)}
+ * @returns {function(this:MethodContainer)}
  */
-Lambda.prototype.yield = function (callback, values) {
+MethodContainer.prototype.yield = function (callback, values) {
     values = this.args(values);
     return function Breduction() {
         var parameters = this.args(arguments);
@@ -41,7 +41,7 @@ Lambda.prototype.yield = function (callback, values) {
         return callback.apply(values, results);
     }.bind(this);
 };
-Lambda.prototype.B = Lambda.prototype.yield;
+MethodContainer.prototype.B = MethodContainer.prototype.yield;
 
 /**
  *
@@ -49,7 +49,7 @@ Lambda.prototype.B = Lambda.prototype.yield;
  * @param offset
  * @returns {Array}
  */
-Lambda.prototype.args = function (values, offset) {
+MethodContainer.prototype.args = function (values, offset) {
     var args = [];
     for (var i = offset || 0; i < values.length; i++) {
         args.push(values[i]);
@@ -61,7 +61,7 @@ Lambda.prototype.args = function (values, offset) {
  *
  * @returns {*}
  */
-Lambda.prototype.head = function () {
+MethodContainer.prototype.head = function () {
     return arguments[0];
 };
 
@@ -69,7 +69,7 @@ Lambda.prototype.head = function () {
  *
  * @returns {Array}
  */
-Lambda.prototype.tail = function () {
+MethodContainer.prototype.tail = function () {
     return this.args(arguments, 1);
 };
 
@@ -79,7 +79,7 @@ Lambda.prototype.tail = function () {
  * @param b
  * @returns {*}
  */
-Lambda.prototype.add = function (a, b) {
+MethodContainer.prototype.add = function (a, b) {
     return a + b;
 };
 
@@ -87,7 +87,7 @@ Lambda.prototype.add = function (a, b) {
  *
  * @returns {boolean}
  */
-Lambda.prototype.and = function () {
+MethodContainer.prototype.and = function () {
     for (var i = 0; i < arguments.length; i++) {
         if (!arguments[i]) {
             return false;
@@ -101,12 +101,12 @@ Lambda.prototype.and = function () {
  * @param i
  * @returns {Function}
  */
-Lambda.prototype.parameter = function (i) {
+MethodContainer.prototype.parameter = function (i) {
     return function () {
         return arguments[i];
     };
 };
-Lambda.prototype.p = Lambda.prototype.param = Lambda.prototype.parameter;
+MethodContainer.prototype.p = MethodContainer.prototype.param = MethodContainer.prototype.parameter;
 
 /**
  *
@@ -115,7 +115,7 @@ Lambda.prototype.p = Lambda.prototype.param = Lambda.prototype.parameter;
  * @returns {*}
  * @constructor
  */
-Lambda.prototype.P = function (array, i) {
+MethodContainer.prototype.P = function (array, i) {
     return array[i || 0];
 };
 
@@ -125,7 +125,7 @@ Lambda.prototype.P = function (array, i) {
  * @param callback
  * @returns {*}
  */
-Lambda.prototype.map = function (items, callback) {
+MethodContainer.prototype.map = function (items, callback) {
     if (Array.isArray(items)) {
         return items.map(callback);
     }
@@ -140,39 +140,39 @@ Lambda.prototype.map = function (items, callback) {
 /**
  *
  */
-var lambda = function () {
+var Lambda = function () {
 };
+
+/**
+ *
+ * @type {MethodContainer}
+ */
+Lambda.prototype = new MethodContainer();
 
 /**
  *
  * @type {Lambda}
  */
-lambda.prototype = new Lambda();
-
-/**
- *
- * @type {lambda}
- */
-var M = new lambda();
+var lambda = new Lambda();
 
 /**
  *
  * @type {Object}
  */
-var L = Object.create({}, M.map(Lambda.prototype, function (value, key) {
+var L = Object.create({}, lambda.map(MethodContainer.prototype, function (value, key) {
     return {
         get: function () {
             return function () {
                 var curries = [];
 
                 function curry(key, params) {
-                    curries.push(M.B(M[key], params));
+                    curries.push(lambda.B(lambda[key], params));
                 }
 
                 curry(key, arguments);
 
                 var LB = function () {
-                    var params = M.args(arguments);
+                    var params = lambda.args(arguments);
                     for (var i in curries) {
                         if (!curries[i].apply(null, params)) {
                             return false;
@@ -181,7 +181,7 @@ var L = Object.create({}, M.map(Lambda.prototype, function (value, key) {
                     return true;
                 };
 
-                Object.defineProperties(LB, M.map(Lambda.prototype, function (value, key) {
+                Object.defineProperties(LB, lambda.map(MethodContainer.prototype, function (value, key) {
                     return {
                         get: function () {
                             return function () {
@@ -198,14 +198,10 @@ var L = Object.create({}, M.map(Lambda.prototype, function (value, key) {
     };
 }));
 
-/**
- *
- * @type {{L: Object, lambda: lambda, λ: lambda, l: (function(this:lambda)), p: (function(this:lambda))}}
- */
 module.exports = {
     L: L,
-    lambda: M,
-    λ: M,
-    l: M.l.bind(M),
-    p: M.p.bind(M)
+    lambda: lambda,
+    λ: lambda,
+    l: lambda.l.bind(lambda),
+    p: lambda.p.bind(lambda)
 };
