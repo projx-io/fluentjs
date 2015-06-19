@@ -6,7 +6,6 @@ describe('O', function () {
     });
 
     it('should exist', function () {
-        console.log(O);
         expect(O).toBeDefined();
     });
 

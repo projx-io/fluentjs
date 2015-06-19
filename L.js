@@ -3,7 +3,7 @@ var operations = {
         return typeof a === "undefined";
     },
     null: function (a) {
-        return a ===  null;
+        return a === null;
     },
     boolean: function (a) {
         return typeof a === "boolean";
@@ -174,13 +174,42 @@ OperationContainer.prototype.isFunction = function (value) {
  *
  * @constructor
  */
-var FluentContainer = function () {
+var Fluent = function () {
+
 };
 
-FluentContainer.prototype = new LambdaContainer();
+Fluent.prototype.make = function (object) {
+    return Fluent.Fluentize(object);
+};
+
+Fluent.Fluentize = function (object) {
+    var container = new Fluent.Container(object);
+
+    Object.keys(object.prototype).map(function (key) {
+        Object.defineProperty(container, key, {
+            get: function () {
+                return container.next;
+            }
+        });
+    });
+
+    return container;
+};
+
+Fluent.Container = function (object) {
+};
+
+Fluent.Container.prototype.next = function (object) {
+};
+
+Fluent.Chain = function () {
+};
+
 
 module.exports = {
+    f: new Fluent(),
     l: new LambdaContainer(),
-    L: new FluentContainer(),
-    O: new OperationContainer()
+    L: new Fluent().make(Object.create(OperationContainer)),
+    O: new OperationContainer(),
+    o: operations
 };

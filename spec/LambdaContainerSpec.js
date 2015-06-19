@@ -1,4 +1,4 @@
-describe('L', function () {
+describe('l', function () {
     var l = null;
 
     beforeEach(function () {
