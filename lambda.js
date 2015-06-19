@@ -155,51 +155,55 @@ Lambda.prototype = new MethodContainer();
  */
 var lambda = new Lambda();
 
+function CurryBuilder(key) {
+    return function () {
+        var curries = [];
+
+        function curry(key, params) {
+            curries.push(lambda.B(lambda[key], params));
+        }
+
+        curry(key, arguments);
+
+        var LB = function () {
+            var params = lambda.args(arguments);
+            for (var i in curries) {
+                if (!curries[i].apply(null, params)) {
+                    return false;
+                }
+            }
+            return true;
+        };
+
+        Object.defineProperties(LB, lambda.map(MethodContainer.prototype, function (value, key) {
+            return {
+                get: function () {
+                    return function () {
+                        curry(key, arguments);
+                        return LB;
+                    }
+                }
+            };
+        }));
+
+        return LB;
+    }
+}
+
 /**
  *
  * @type {Object}
  */
-var L = Object.create({}, lambda.map(MethodContainer.prototype, function (value, key) {
+var CurryFactory = Object.create({}, lambda.map(MethodContainer.prototype, function (value, key) {
     return {
         get: function () {
-            return function () {
-                var curries = [];
-
-                function curry(key, params) {
-                    curries.push(lambda.B(lambda[key], params));
-                }
-
-                curry(key, arguments);
-
-                var LB = function () {
-                    var params = lambda.args(arguments);
-                    for (var i in curries) {
-                        if (!curries[i].apply(null, params)) {
-                            return false;
-                        }
-                    }
-                    return true;
-                };
-
-                Object.defineProperties(LB, lambda.map(MethodContainer.prototype, function (value, key) {
-                    return {
-                        get: function () {
-                            return function () {
-                                curry(key, arguments);
-                                return LB;
-                            }
-                        }
-                    };
-                }));
-
-                return LB;
-            }
+            return CurryBuilder(key);
         }
     };
 }));
 
 module.exports = {
-    L: L,
+    L: CurryFactory,
     lambda: lambda,
     λ: lambda,
     l: lambda.l.bind(lambda),
