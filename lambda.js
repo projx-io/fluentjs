@@ -1,21 +1,32 @@
 // λ
 // Λ
 
-Λ = function () {
+/**
+ *
+ * @constructor
+ */
+var Lambda = function () {
 };
 
-λ = function () {
-};
-
-λ.prototype = new Λ();
-
-Λ.prototype.l = function (callback) {
+/**
+ *
+ * @param callback
+ * @returns {*}
+ */
+Lambda.prototype.lazy = function (callback) {
     var args = this.args(arguments, 1);
 
     return this.B(callback, args);
 };
+Lambda.prototype.l = Lambda.prototype.lazy;
 
-Λ.prototype.B = function (callback, values) {
+/**
+ *
+ * @param callback
+ * @param values
+ * @returns {function(this:Lambda)}
+ */
+Lambda.prototype.yield = function (callback, values) {
     values = this.args(values);
     return function Breduction() {
         var parameters = this.args(arguments);
@@ -30,8 +41,15 @@
         return callback.apply(values, results);
     }.bind(this);
 };
+Lambda.prototype.B = Lambda.prototype.yield;
 
-Λ.prototype.args = function (values, offset) {
+/**
+ *
+ * @param values
+ * @param offset
+ * @returns {Array}
+ */
+Lambda.prototype.args = function (values, offset) {
     var args = [];
     for (var i = offset || 0; i < values.length; i++) {
         args.push(values[i]);
@@ -39,15 +57,37 @@
     return args;
 };
 
-Λ.prototype.tail = function () {
+/**
+ *
+ * @returns {*}
+ */
+Lambda.prototype.head = function () {
+    return arguments[0];
+};
+
+/**
+ *
+ * @returns {Array}
+ */
+Lambda.prototype.tail = function () {
     return this.args(arguments, 1);
 };
 
-Λ.prototype.add = function (a, b) {
+/**
+ *
+ * @param a
+ * @param b
+ * @returns {*}
+ */
+Lambda.prototype.add = function (a, b) {
     return a + b;
 };
 
-Λ.prototype.and = function () {
+/**
+ *
+ * @returns {boolean}
+ */
+Lambda.prototype.and = function () {
     for (var i = 0; i < arguments.length; i++) {
         if (!arguments[i]) {
             return false;
@@ -56,21 +96,36 @@
     return true;
 };
 
-Λ.prototype.s = function (array, i) {
-    return array[i];
-};
-
-Λ.prototype.p = function (i) {
+/**
+ *
+ * @param i
+ * @returns {Function}
+ */
+Lambda.prototype.parameter = function (i) {
     return function () {
         return arguments[i];
     };
 };
+Lambda.prototype.p = Lambda.prototype.param = Lambda.prototype.parameter;
 
-Λ.prototype.P = function (array, i) {
+/**
+ *
+ * @param array
+ * @param i
+ * @returns {*}
+ * @constructor
+ */
+Lambda.prototype.P = function (array, i) {
     return array[i || 0];
 };
 
-Λ.prototype.map = function (items, callback) {
+/**
+ *
+ * @param items
+ * @param callback
+ * @returns {*}
+ */
+Lambda.prototype.map = function (items, callback) {
     if (Array.isArray(items)) {
         return items.map(callback);
     }
@@ -82,9 +137,29 @@
     return object;
 };
 
-var M = new λ();
+/**
+ *
+ */
+var lambda = function () {
+};
 
-var L = Object.create({}, M.map(Λ.prototype, function (value, key) {
+/**
+ *
+ * @type {Lambda}
+ */
+lambda.prototype = new Lambda();
+
+/**
+ *
+ * @type {lambda}
+ */
+var M = new lambda();
+
+/**
+ *
+ * @type {Object}
+ */
+var L = Object.create({}, M.map(Lambda.prototype, function (value, key) {
     return {
         get: function () {
             return function () {
@@ -106,7 +181,7 @@ var L = Object.create({}, M.map(Λ.prototype, function (value, key) {
                     return true;
                 };
 
-                Object.defineProperties(LB, M.map(Λ.prototype, function (value, key) {
+                Object.defineProperties(LB, M.map(Lambda.prototype, function (value, key) {
                     return {
                         get: function () {
                             return function () {
@@ -123,6 +198,10 @@ var L = Object.create({}, M.map(Λ.prototype, function (value, key) {
     };
 }));
 
+/**
+ *
+ * @type {{L: Object, lambda: lambda, λ: lambda, l: (function(this:lambda)), p: (function(this:lambda))}}
+ */
 module.exports = {
     L: L,
     lambda: M,
