@@ -2,7 +2,7 @@ describe('L', function () {
     var L = null;
 
     beforeEach(function () {
-        L = require('../L.js');
+        L = require('../L.js').L;
     });
 
     it('should exist', function () {
