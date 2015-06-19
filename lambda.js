@@ -155,39 +155,41 @@ Lambda.prototype = new MethodContainer();
  */
 var lambda = new Lambda();
 
+function CurryContainer(curries) {
+    this.curry = function (key, params) {
+        curries.push(lambda.B(lambda[key], params));
+    };
+
+    this.resolve = function () {
+        var params = lambda.args(arguments);
+        for (var i in curries) {
+            if (!curries[i].apply(null, params)) {
+                return false;
+            }
+        }
+        return true;
+    };
+}
+
+
+Object.defineProperties(CurryContainer.prototype, lambda.map(MethodContainer.prototype, function (value, key) {
+    return {
+        get: function () {
+            return function () {
+                this.curry(key, arguments);
+                return this.curry;
+            }.bind(this);
+        }
+    };
+}));
+
+
 function CurryBuilder(key) {
     return function () {
-        var curries = [];
-
-        function curry(key, params) {
-            curries.push(lambda.B(lambda[key], params));
-        }
-
-        curry(key, arguments);
-
-        var LB = function () {
-            var params = lambda.args(arguments);
-            for (var i in curries) {
-                if (!curries[i].apply(null, params)) {
-                    return false;
-                }
-            }
-            return true;
-        };
-
-        Object.defineProperties(LB, lambda.map(MethodContainer.prototype, function (value, key) {
-            return {
-                get: function () {
-                    return function () {
-                        curry(key, arguments);
-                        return LB;
-                    }
-                }
-            };
-        }));
-
-        return LB;
-    }
+        var curries = new CurryContainer([]);
+        curries.curry(key, arguments);
+        return curries.curry;
+    };
 }
 
 /**

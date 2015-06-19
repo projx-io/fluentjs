@@ -8,14 +8,32 @@ var OperationContainer = function () {
 
 OperationContainer.prototype.array = function (items, start) {
     var array = [];
-    Object.keys(items).map(function (key) {
+    for (var key in items) {
         array.push(items[key]);
-    });
+    }
     return array.slice(start);
 };
 
-OperationContainer.prototype.lazy = function (callback) {
+OperationContainer.prototype.resolve = function (parameters) {
+    return function (value) {
+        return typeof value === "function" ? value.apply(null, parameters) : value;
+    };
+};
 
+OperationContainer.prototype.yield = function (callback, parameters) {
+    return function () {
+        return callback.apply(null, parameters.map(this.resolve(arguments)));
+    }.bind(this);
+};
+
+OperationContainer.prototype.param = function (i) {
+    return function () {
+        return arguments[i];
+    };
+};
+
+OperationContainer.prototype.lazy = function (callback) {
+    return this.yield(callback, this.array(arguments, 1));
 };
 
 /**
