@@ -6,16 +6,22 @@ var operations = {
         return a ===  null;
     },
     boolean: function (a) {
+        return typeof a === "boolean";
     },
     number: function (a) {
+        return typeof a === "number";
     },
     string: function (a) {
+        return typeof a === "string";
     },
     array: function (a) {
+        return Array.isArray(a);
     },
     object: function (a) {
+        return typeof a === "object" && !this.null(a) && !this.array(a);
     },
     function: function (a) {
+        return typeof a === "function";
     },
     equal: function (a, b) {
         return a === b;
