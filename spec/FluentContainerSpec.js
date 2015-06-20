@@ -3,8 +3,8 @@ describe('L', function () {
     var o = null;
 
     beforeEach(function () {
-        L = require('../L.js').L;
-        o = require('../L.js').o;
+        L = require('../fluent.js').L;
+        o = require('../fluent.js').o;
     });
 
     it('should exist', function () {

@@ -2,7 +2,7 @@ describe('l', function () {
     var l = null;
 
     beforeEach(function () {
-        l = require('../L.js').l;
+        l = require('../fluent.js').l;
     });
 
     it('should exist', function () {

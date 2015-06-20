@@ -1,11 +1,19 @@
 {
     "name": "fluentjs",
-    "version": "0.0.1",
+    "version": "0.5.1",
     "description": "fluent for javascript",
     "main": "fluent.js",
     "scripts": {
         "test": "./node_modules/.bin/jasmine-node --verbose --junitreport spec"
     },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/projx-io/fluentjs.git"
+    },
+    "bugs": {
+        "url": "https://github.com/projx-io/fluentjs/issues"
+    },
+    "homepage": "https://github.com/projx-io/fluentjs",
     "author": "Terrence Howard",
     "license": "ISC"
 }

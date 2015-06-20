@@ -2,7 +2,7 @@ describe('O', function () {
     var O = null;
 
     beforeEach(function () {
-        O = require('../L.js').O;
+        O = require('../fluent.js').O;
     });
 
     it('should exist', function () {
