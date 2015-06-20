@@ -193,24 +193,22 @@ Fluent.Fluentize = function (object) {
     var container = new Fluent.Container();
 
     Object.keys(object.prototype).map(function (key) {
-        Object.defineProperty(container, key, {
-            get: function () {
-                return function () {
-                    return container.curry;
-                };
-            }
-        });
-
-        Object.defineProperty(container.curry, key, {
-            get: function () {
-                return function () {
-                    return container.curry;
-                };
-            }
-        });
+        var property = Fluent.Property(container);
+        Object.defineProperty(container, key, property);
+        Object.defineProperty(container.curry, key, property);
     });
 
     return container;
+};
+
+Fluent.Property = function (container) {
+    return {
+        get: function () {
+            return function () {
+                return container.curry;
+            };
+        }
+    };
 };
 
 Fluent.Container.prototype.next = function () {
